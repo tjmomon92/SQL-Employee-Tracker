@@ -14,6 +14,29 @@ const db = mysql.createConnection(
     console.log(`Connected to the company_db database.`)
 );
 
+// SQL Queries
+function seeDepartments() { 
+    db.query('SELECT d.id AS department_id, d.name AS department_name FROM department AS d;', function (err, results) {
+        console.table(results);
+        start();
+    });
+  };
+  
+function seeEmployees() { 
+    db.query("SELECT e.id AS employee_id, e.first_name, e.last_name, d.name AS department_name, r.title AS job_title, r.salary AS salary, CONCAT(m.first_name, ' ', m.last_name) AS manager_name FROM employee as e INNER JOIN role AS r ON (e.role_id = r.id) INNER JOIN department AS d ON (r.department_id = d.id) LEFT JOIN employee AS m ON (e.manager_id = m.id);", function (err, results) {
+        console.table(results);
+        start();
+    })
+
+};
+
+function seeRoles() {
+    db.query("SELECT r.id AS role_id, r.title AS job_title, r.salary, d.name AS department_name, r.department_id FROM role AS r JOIN department AS d ON (r.department_id = d.id);", function (err, results) {
+        console.table(results);
+        start();
+    });
+};
+
 // Function to start program/return to Main
 function init() {
     inquirer
