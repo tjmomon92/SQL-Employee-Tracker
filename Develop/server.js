@@ -14,6 +14,84 @@ const db = mysql.createConnection(
     console.log(`Connected to the company_db database.`)
 );
 
+// Functions to add data
+async function addEmployee() {
+    const add = await inquirer.prompt([
+        {
+            type: "input",
+            message: "What is the first name of the new employee?",
+            name: "employee_firstName"
+        },
+        {
+            type: "input",
+            message: "What is the last name of the new employee?",
+            name: "employee_lastName"
+        },
+        {
+            type: "input",
+            message: "What is the new employee's role id?",
+            name: "employee_roleId"
+        },
+        {
+            type: "input",
+            message: "What is the id number for the manager of this employee?",
+            name: "employee_managerId"
+        }
+    ])
+        db.query(
+            `INSERT INTO employee (first_name, last_name, role_id, manager_id)
+            VALUES
+                ('${add.employee_firstName}', '${add.employee_lastName}', ${add.employee_roleId}, ${add.employee_managerId});`,
+        function () {
+            console.log(`${add.employee_firstName} ${add.employee_lastName} has been added to the database.`);
+    });
+    start();
+};
+
+async function addDepartment() {
+    const add = await inquirer.prompt([
+        {
+            type: "input",
+            message: "What is the name of the department you want to add?",
+            name: "department_name"
+        }
+    ])
+        db.query(
+            `INSERT INTO department (name) VALUES ('${add.department_name}')`,
+        function () {
+            console.log(`${add.department} was added to the department table.`);
+    });
+    start();
+};
+
+async function addRole() {
+    const add = await inquirer.prompt([
+        {
+            type: "input",
+            message: "What is the title of the role you want to add?",
+            name: "role_title"
+        },
+        {
+            type: "input",
+            message: "What is the salary of this role?",
+            name: "role_salary"
+        },
+        {
+            type: "input",
+            message: "What is the id number for the department that this role is associated with?",
+            name: "department_id"
+        }
+    ])
+        db.query(
+            `INSERT INTO role (title, salary, department_id)
+            VALUES
+                ('${add.role_title}', ${add.role_salary}, ${add.department_id});`,
+        function () {
+            console.log(`${add.role_title} has been added to the database.`);
+        });
+        start();
+};
+
 // SQL Queries
 function seeDepartments() { 
     db.query('SELECT d.id AS department_id, d.name AS department_name FROM department AS d;', function (err, results) {
