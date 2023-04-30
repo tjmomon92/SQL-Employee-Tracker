@@ -92,6 +92,31 @@ async function addRole() {
         start();
 };
 
+// Function to update info
+async function updateEmployeeRole() {
+    db.query("SELECT e.id AS employee_id, CONCAT(e.first_name, ' ', e.last_name) AS employee_name, d.name AS department_name, d.id AS department_id, r.title AS job_title, r.id AS role_id, r.salary AS salary, CONCAT(m.first_name, ' ', m.last_name) AS manager_name FROM employee as e INNER JOIN role AS r ON (e.role_id = r.id) INNER JOIN department AS d ON (r.department_id = d.id) LEFT JOIN employee AS m ON (e.manager_id = m.id);", async function (err, results) {
+        console.table(results);
+    const update = await inquirer.prompt([
+        {
+            type: "input",
+            message: "Please enter the id of the employee you would like to update.",
+            name: "employee_update"
+        },
+        {
+            type: "input",
+            message: "Please enter the id of the employee's updated role.",
+            name: "role_update"
+        }
+    ])
+        db.query(
+            `UPDATE employee SET role_id = ${update.role_update} WHERE id = ${update.employee_update};`,
+        function () {
+            console.log(`${update.employee_update} has been updated in the database.`);
+        });
+        start();
+    });  
+};
+
 // SQL Queries
 function seeDepartments() { 
     db.query('SELECT d.id AS department_id, d.name AS department_name FROM department AS d;', function (err, results) {
