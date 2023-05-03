@@ -160,9 +160,9 @@ function init() {
           seeRoles();
         } else if (response.menu == "Add - department") {
           addDepartment();
-        } else if (response.menu == "Add - employee") {
-          addRole();
         } else if (response.menu == "Add - role") {
+          addRole();
+        } else if (response.menu == "Add - employee") {
           addEmployee();
         } else if (response.menu == "Update - employee role") {
           updateEmployeeRole();

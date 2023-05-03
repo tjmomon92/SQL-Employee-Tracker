@@ -10,6 +10,7 @@
 - [Project Testing](#Testing)
 - [Project Licensing](#Licensing)
 - [Project Contact](#Contact)
+- [Project Credits](#Credits)
   
 ## Description
 An SQL-based application used to track a database of employee information created with SQL.
@@ -29,4 +30,7 @@ Licensed under [Apache](https://www.apache.org/licenses/LICENSE-2.0)
 ## Contact
 https://github.com/tjmomon92
 </br>NONE@NOSPAM.com
+
+## Credits
+I want to give a HUGE shoutout to my SMU classmate Gabriel Ess for his help in troubleshooting my seeds.sql file and its conflicts with its relational data. Check out his [GitHub](https://github.com/gabess3) to show him the appreciation he deserves!
     
