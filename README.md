@@ -22,13 +22,13 @@ This application was build with nodejs, and utilizes the inquirer package for th
 This application is used to track a large amount of employee data effectively, with the ability to add, alter or delete data as needed.
   
 ## Testing
-To test this database, a user should use Insomnia. For details, check out this video!
+To test this database, a user should use Insomnia. For details, check out [this](https://drive.google.com/file/d/1oIlsFac-noG7c65_s7BhBlllOPlEcLDR/view) video!
   
 ## Licensing
 Licensed under [Apache](https://www.apache.org/licenses/LICENSE-2.0)
   
 ## Contact
-https://github.com/tjmomon92
+[GitHub](https://github.com/tjmomon92)
 </br>NONE@NOSPAM.com
 
 ## Credits
