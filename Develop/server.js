@@ -14,6 +14,22 @@ const db = mysql.createConnection(
     console.log(`Connected to the employee_db database.`)
 );
 
+async function addDepartment() {
+    const add = await inquirer.prompt([
+        {
+            type: "input",
+            message: "Department Name?",
+            name: "department_name"
+        }
+    ])
+        db.query(
+            `INSERT INTO department (name) VALUES ('${add.department_name}')`,
+        function () {
+            console.log(`${add.department} was added to the department table.`);
+    });
+    init();
+};
+
 // Functions to add data
 async function addEmployee() {
     const add = await inquirer.prompt([
@@ -29,7 +45,7 @@ async function addEmployee() {
         },
         {
             type: "input",
-            message: "Employee ID?",
+            message: "Role ID?",
             name: "employee_roleId"
         },
         {
@@ -44,22 +60,6 @@ async function addEmployee() {
                 ('${add.employee_firstName}', '${add.employee_lastName}', ${add.employee_roleId}, ${add.employee_managerId});`,
         function () {
             console.log(`${add.employee_firstName} ${add.employee_lastName} has been added to the database.`);
-    });
-    init();
-};
-
-async function addDepartment() {
-    const add = await inquirer.prompt([
-        {
-            type: "input",
-            message: "Department Name?",
-            name: "department_name"
-        }
-    ])
-        db.query(
-            `INSERT INTO department (name) VALUES ('${add.department_name}')`,
-        function () {
-            console.log(`${add.department} was added to the department table.`);
     });
     init();
 };
