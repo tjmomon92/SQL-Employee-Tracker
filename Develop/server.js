@@ -11,7 +11,7 @@ const db = mysql.createConnection(
       database: process.env.DB_NAME,
       host: process.env.DB_HOST
     },
-    console.log(`Connected to the company_db database.`)
+    console.log(`Connected to the employee_db database.`)
 );
 
 // Functions to add data
@@ -19,22 +19,22 @@ async function addEmployee() {
     const add = await inquirer.prompt([
         {
             type: "input",
-            message: "What is the first name of the new employee?",
+            message: "Employee first name?",
             name: "employee_firstName"
         },
         {
             type: "input",
-            message: "What is the last name of the new employee?",
+            message: "Employee last name?",
             name: "employee_lastName"
         },
         {
             type: "input",
-            message: "What is the new employee's role id?",
+            message: "Employee ID?",
             name: "employee_roleId"
         },
         {
             type: "input",
-            message: "What is the id number for the manager of this employee?",
+            message: "Manager ID number?",
             name: "employee_managerId"
         }
     ])
@@ -45,14 +45,14 @@ async function addEmployee() {
         function () {
             console.log(`${add.employee_firstName} ${add.employee_lastName} has been added to the database.`);
     });
-    start();
+    init();
 };
 
 async function addDepartment() {
     const add = await inquirer.prompt([
         {
             type: "input",
-            message: "What is the name of the department you want to add?",
+            message: "Department Name?",
             name: "department_name"
         }
     ])
@@ -61,24 +61,24 @@ async function addDepartment() {
         function () {
             console.log(`${add.department} was added to the department table.`);
     });
-    start();
+    init();
 };
 
 async function addRole() {
     const add = await inquirer.prompt([
         {
             type: "input",
-            message: "What is the title of the role you want to add?",
+            message: "Role title?",
             name: "role_title"
         },
         {
             type: "input",
-            message: "What is the salary of this role?",
+            message: "Role salary?",
             name: "role_salary"
         },
         {
             type: "input",
-            message: "What is the id number for the department that this role is associated with?",
+            message: "Department ID?",
             name: "department_id"
         }
     ])
@@ -89,7 +89,7 @@ async function addRole() {
         function () {
             console.log(`${add.role_title} has been added to the database.`);
         });
-        start();
+        init();
 };
 
 // Function to update info
@@ -99,12 +99,12 @@ async function updateEmployeeRole() {
     const update = await inquirer.prompt([
         {
             type: "input",
-            message: "Please enter the id of the employee you would like to update.",
+            message: "Enter ID of the employee you would like to update.",
             name: "employee_update"
         },
         {
             type: "input",
-            message: "Please enter the id of the employee's updated role.",
+            message: "Enter ID of the employee's updated role.",
             name: "role_update"
         }
     ])
@@ -113,7 +113,7 @@ async function updateEmployeeRole() {
         function () {
             console.log(`${update.employee_update} has been updated in the database.`);
         });
-        start();
+        init();
     });  
 };
 
@@ -121,14 +121,14 @@ async function updateEmployeeRole() {
 function seeDepartments() { 
     db.query('SELECT d.id AS department_id, d.name AS department_name FROM department AS d;', function (err, results) {
         console.table(results);
-        start();
+        init();
     });
   };
   
 function seeEmployees() { 
     db.query("SELECT e.id AS employee_id, e.first_name, e.last_name, d.name AS department_name, r.title AS job_title, r.salary AS salary, CONCAT(m.first_name, ' ', m.last_name) AS manager_name FROM employee as e INNER JOIN role AS r ON (e.role_id = r.id) INNER JOIN department AS d ON (r.department_id = d.id) LEFT JOIN employee AS m ON (e.manager_id = m.id);", function (err, results) {
         console.table(results);
-        start();
+        init();
     })
 
 };
@@ -136,7 +136,7 @@ function seeEmployees() {
 function seeRoles() {
     db.query("SELECT r.id AS role_id, r.title AS job_title, r.salary, d.name AS department_name, r.department_id FROM role AS r JOIN department AS d ON (r.department_id = d.id);", function (err, results) {
         console.table(results);
-        start();
+        init();
     });
 };
 
@@ -148,25 +148,25 @@ function init() {
           type: 'list',
           message: 'What would you like to do?',
           name: 'menu',
-          choices: ['See list of departments', 'See list of employees', 'See list of roles', 'Add a department', 'Add an employee', 'Add a role', 'Update employee role', 'Quit']
+          choices: ['See list - departments', 'See list - employees', 'See list - roles', 'Add - department', 'Add - employee', 'Add - role', 'Update - employee role', 'Leave']
         }
       ])
       .then((response) => {
-        if (response.menu == "See list of departments") {
+        if (response.menu == "See list - departments") {
           seeDepartments();
-        } else if (response.menu == "See list of employees") {
+        } else if (response.menu == "See list - employees") {
           seeEmployees();
-        } else if (response.menu == "See list of roles") {
+        } else if (response.menu == "See list - roles") {
           seeRoles();
-        } else if (response.menu == "Add a department") {
+        } else if (response.menu == "Add - department") {
           addDepartment();
-        } else if (response.menu == "Add a role") {
+        } else if (response.menu == "Add - employee") {
           addRole();
-        } else if (response.menu == "Add an employee") {
+        } else if (response.menu == "Add - role") {
           addEmployee();
-        } else if (response.menu == "Update employee role") {
+        } else if (response.menu == "Update - employee role") {
           updateEmployeeRole();
-        } else if (response.menu == "Quit") {
+        } else if (response.menu == "Leave") {
           process.exit(0)
         }
       })
